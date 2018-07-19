@@ -11,6 +11,7 @@ class ListSearch extends React.Component{
         super(props);
         this.state = {
             searchType      : 'productName', //productId / productName
+            searchKeyword   : ''
         }
     }
     // 数据变化的时候
@@ -23,7 +24,7 @@ class ListSearch extends React.Component{
     }
     // 点击搜索按钮的时候
     onSearch(){
-        this.props.onSearch(this.state.searchType);
+        this.props.onSearch(this.state.searchType,this.state.searchKeyword);
     }
     // 输入关键字后按回车，自动提交
     onSearchKeywordKeyUp(e){
@@ -48,6 +49,7 @@ class ListSearch extends React.Component{
                                 className="form-control" 
                                 placeholder="关键词"
                                 name="searchKeyword"
+                                value={this.state.searchKeyword}
                                 onKeyUp={(e) => this.onSearchKeywordKeyUp(e)}
                                 onChange={(e) => this.onValueChange(e)}/>
                         </div>

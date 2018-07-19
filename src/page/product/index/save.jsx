@@ -11,23 +11,34 @@ import PageTitle            from 'component/page-title/index.jsx';
 import FileUploader         from 'util/file-uploader/index.jsx'
 import RichEditor           from 'util/rich-editor/index.jsx'
 
+
 import './save.scss';
 
 const _mm           = new MUtil();
 const _product      = new Product();
+const niu           = require('qiniu-js')
 
 class ProductSave extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             id                  : this.props.match.params.aid,
+            title               : '',
+            subtitle            : '',           
+            category            : '',
+            categoryAll         : [],
             subImages           : [],
             pageNum             : 1,
-            pageSize            : 5
+            pageSize            : 5,
+            set_top             :'',
+            is_recommend        :''
         }
     }
     componentDidMount(){
+
         this.loadProduct();
+        //获取分类
+        this.getAllCategory()
     }
     // 加载文章详情
     loadProduct(){
@@ -39,11 +50,27 @@ class ProductSave extends React.Component{
         }
         if(this.state.id){
             _product.getProductList(listParam).then((res) => {
-                this.setState(res.list[0])
+                var subImages = [];
+                this.setState(res.list[0]);
+                subImages.push(this.state.art_pic);
+                this.setState({
+                    category : res.list[0].category.categoryId,
+                    defaultDetail : res.list[0].detail,
+                    subImages : subImages
+                })
             }, (errMsg) => {
                 _mm.errorTips(errMsg);
             });
         }
+    }
+    getAllCategory(){
+        _product.getAllCategory().then(res=>{
+            this.setState({
+                categoryAll : res
+            })
+        },err=>{
+            _mm.errorTips(err);
+        })
     }
     // 简单字段的改变，比如商品名称，描述，价格，库存
     onValueChange(e){
@@ -52,6 +79,12 @@ class ProductSave extends React.Component{
         this.setState({
             [name] : value
         });
+    }
+    //上传图片到七牛云
+    onUploadNiu(){
+        let uploader = niu.upload({
+            
+        })
     }
     // 上传图片成功
     onUploadSuccess(res){
@@ -64,12 +97,6 @@ class ProductSave extends React.Component{
     // 上传图片失败
     onUploadError(errMsg){
         _mm.errorTips(errMsg);
-    }
-    //上传图片
-    onsimditor(res){
-        this.setState({
-            subImages1 : res
-        })
     }
     // 删除图片
     onImageDelete(e){
@@ -88,12 +115,21 @@ class ProductSave extends React.Component{
     }
     // 提交表单
     onSubmit(){
-        
-        
+         let listArticle = {
+             title          : this.state.title,
+             subtitle       : this.state.subtitle,
+             category       : this.state.category,
+             set_top        : this.state.set_top,
+             is_recommend   : this.state.is_recommend,
+             detail         : this.state.detail,
+             art_pic        : this.state.subImages[0]
+         } 
+         console.log(listArticle);     
     }
     render(){
         return (
             <div id="page-wrapper">
+                        <button onClick={e=>this.onUploadNiu(e)}>upload</button>
                 <PageTitle title={this.state.id ? '编辑文章' : '添加文章'} />
                 <div className="form-horizontal">
                     <div className="form-group">
@@ -117,21 +153,47 @@ class ProductSave extends React.Component{
                         </div>
                     </div>
                     <div className="form-group">
-                        <label className="col-md-2 control-label">文章副标题</label>
-                        <div className="col-md-5">
+                        <label className="col-md-2 control-label">选择分类</label>
+                        <div className="col-md-2">
                             <select className="form-control cate-select"
-                                value={this.state.firstCategoryId}
-                                onChange={(e) => this.onFirstCategoryChange(e)}>
+                                value={this.state.category}
+                                name='category'
+                                onChange={(e) => this.onValueChange(e)}>
                                 <option value="">请选择分类</option>
                                 {
-                                    this.state.firstCategoryList.map(
-                                        (category, index) => <option value={category.id} key={index}>{category.name}</option>
-                                    )
+                                    this.state.categoryAll.map((cate,index)=>{
+                                       return <option value={cate.categoryId} key={index}>{cate.item}</option>
+                                    })
                                 }
                             </select>
                         </div>
                     </div>
-                    
+                    <div className="form-group">
+                        <label className="col-md-2 control-label">是否置顶</label>
+                        <div className="col-md-2">
+                            <select className="form-control cate-select"
+                                value={this.state.set_top}
+                                name = 'set_top'
+                                onChange={(e) => this.onValueChange(e)}>
+                                <option value="">请选择</option>
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="form-group">
+                        <label className="col-md-2 control-label">是否推荐</label>
+                        <div className="col-md-2">
+                            <select className="form-control cate-select"
+                                name = 'is_recommend'
+                                value={this.state.is_recommend}
+                                onChange={(e) => this.onValueChange(e)}>
+                                <option value="">请选择</option>
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            </select>
+                        </div>
+                    </div>
                     <div className="form-group">
                         <label className="col-md-2 control-label">商品图片</label>
                         <div className="col-md-10">
@@ -139,7 +201,7 @@ class ProductSave extends React.Component{
                                 this.state.subImages.length ? this.state.subImages.map(
                                     (image, index) => (
                                     <div className="img-con" key={index}>
-                                        <img className="img" src={image.url} />
+                                        <img className="img" src={image} />
                                         <i className="fa fa-close" index={index} onClick={(e) => this.onImageDelete(e)}></i>
                                     </div>)
                                 ) : (<div>请上传图片</div>)
@@ -147,7 +209,7 @@ class ProductSave extends React.Component{
                         </div>
                         <div className="col-md-offset-2 col-md-10 file-upload-con">
                             <FileUploader onSuccess={(res) => this.onUploadSuccess(res)}
-                                onError={(errMsg) => this.onUploadError(errMsg)} onChoose={(res)=>{this.onsimditor(res)}}/>
+                                onError={(errMsg) => this.onUploadError(errMsg)}/>
                         </div>
                     </div>
                     <div className="form-group">

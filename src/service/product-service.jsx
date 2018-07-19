@@ -16,7 +16,7 @@ class Product{
             data.pageSize   = listParam.pageSize;
             data.pageNum    = listParam.pageNum;
         if(listParam.listType === 'search'){
-            
+            data.like = listParam.like;
         }
         if(listParam.aid){
             data.aid=listParam.aid;
@@ -31,13 +31,12 @@ class Product{
     setProductStatus(productInfo){
         return _mm.request({
             type    : 'post',
-            url     : '/manage/product/set_sale_status.do',
+            url     : '/admin/setArticleStatus',
             data    : productInfo
         });
     }
     // 检查保存商品的表单数据
     checkProduct(product){
-        console.log(product)
         let result = {
             status: true,
             msg: '验证通过'
@@ -115,8 +114,7 @@ class Product{
    getAllCategory(){
         return _mm.request({
             type    : 'post',
-            url     : 'admin/getArticleClass',
-            data    : category
+            url     : '/admin/getArticleClass',
         });
    }
     // 新增品类

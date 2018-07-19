@@ -27,6 +27,7 @@ class ProductList extends React.Component {
             pageNum     : 1,
             listType    : 'list',
             pageSize    : 5,
+            keyword     : ''
         };
     }
     componentDidMount() {
@@ -43,6 +44,9 @@ class ProductList extends React.Component {
             pageSize    : this.state.pageSize,
             listType    : this.state.listType
         }
+        if(this.state.listType == 'search'){
+            data['like'] = this.state.keyword
+        }
         _product.getProductList(data).then(res=>{
             if(this._isMounted){
                 this.setState(res)
@@ -55,8 +59,13 @@ class ProductList extends React.Component {
         })
     }
     // 搜索
-    onSearch(searchType) {
-        
+    onSearch(searchType,keyword) {
+        this.setState({
+            listType : 'search',
+            keyword  : keyword
+        },e=>{
+            this.loadProductList();
+        })
     }
     // 页数发生变化的时候
     onPageNumChange(pageNum) {
@@ -66,26 +75,48 @@ class ProductList extends React.Component {
             this.loadProductList();
         });
     }
-    // 改变商品状态，上架 / 下架
-    onSetProductStatus(e, productId, currentStatus) {
-        let newStatus = currentStatus == 1 ? 2 : 1,
+    // 改变文章状态，置顶/推荐
+    onSetProductStatus(e, productId, currentStatus,status) {
+        let newStatus = currentStatus == 1 ? 0 : 1;
+        let confrimTips = '';
+        if(status=='top'){
             confrimTips = currentStatus == 1
-                ? '确定要下架？' : '确定要上架？';
-        _mm.onAlert({text:confrimTips}).then(confirm => {
-            if (confirm.value) {
-                _product.setProductStatus({
-                    productId: productId,
-                    status: newStatus
-                }).then(res => {
-                    _mm.successTips(res);
-                    this.loadProductList();
-                }, errMsg => {
-                    _mm.errorTips(errMsg);
-                });
-            } else {
-                return;
-            }
-        })
+                ? '确定要取消置顶吗？' : '确定要置顶吗？';
+                _mm.onAlert({text:confrimTips}).then(confirm => {
+                    if (confirm.value) {
+                        _product.setProductStatus({
+                            aid: productId,
+                            set_top: newStatus
+                        }).then(res => {
+                            _mm.successTips(res);
+                            this.loadProductList();
+                        }, errMsg => {
+                            _mm.errorTips(errMsg);
+                        });
+                    } else {
+                        return;
+                    }
+                })
+        }else{
+            confrimTips = currentStatus == 1
+                ? '确定要取消推荐吗？' : '确定要推荐吗？';
+                _mm.onAlert({text:confrimTips}).then(confirm => {
+                    if (confirm.value) {
+                        _product.setProductStatus({
+                            aid: productId,
+                            is_recommend : newStatus
+                        }).then(res => {
+                            _mm.successTips(res);
+                            this.loadProductList();
+                        }, errMsg => {
+                            _mm.errorTips(errMsg);
+                        });
+                    } else {
+                        return;
+                    }
+                })
+        }       
+        
     }
     render() {
         let tableHeads = [
@@ -108,13 +139,13 @@ class ProductList extends React.Component {
             <div id="page-wrapper">
                 <PageTitle title="文章列表">
                     <div className="page-header-right">
-                        <Link to="/product/save" className="btn btn-primary">
+                        <Link to="/root/product/save" className="btn btn-primary">
                             <i className="fa fa-plus"></i>
                             <span>添加文章</span>
                         </Link>
                     </div>
                 </PageTitle>
-                <ListSearch onSearch={(searchType) => { this.onSearch(searchType) }} />
+                <ListSearch onSearch={(searchType,keyword) => { this.onSearch(searchType,keyword) }} />
                 <TableList tableHeads={tableHeads}>
                     {
                         this.state.list.map((product, index) => {
@@ -126,18 +157,18 @@ class ProductList extends React.Component {
                                     </td>
                                     <td>{product.category.item}</td>
                                     <td>
-                                        <p style={product.set_top == 1 ? style1 : style}>{product.status == 1 ? '置顶' : '已取消置顶'}</p>
+                                        <p style={product.set_top == 1 ? style1 : style}>{product.set_top == 1 ? '置顶' : '已取消置顶'}</p>
                                         <button className="btn btn-xs btn-warning"
-                                            onClick={(e) => { this.onSetProductStatus(e, product.aid, product.set_top) }}>{product.status == 1 ? '取消置顶' : '置顶'}</button>
+                                            onClick={(e) => { this.onSetProductStatus(e, product.aid, product.set_top,'top') }}>{product.set_top == 1 ? '取消置顶' : '置顶'}</button>
                                     </td>
                                     <td>
                                         <p style={product.is_recommend == 1 ? style1 : style}>{product.is_recommend == 1 ? '推荐' : '已取消推荐'}</p>
                                         <button className="btn btn-xs btn-warning"
-                                            onClick={(e) => { this.onSetProductStatus(e, product.aid, product.is_recommend) }}>{product.is_recommend == 1 ? '取消推荐' : '推荐'}</button>
+                                            onClick={(e) => { this.onSetProductStatus(e, product.aid, product.is_recommend,'recommend') }}>{product.is_recommend == 1 ? '取消推荐' : '推荐'}</button>
                                     </td>
                                     <td>
-                                        <Link className="opear" to={`/product/detail/${product.aid}`}>详情</Link>
-                                        <Link className="opear" to={`/product/save/${product.aid}`}>编辑</Link>
+                                        <Link className="opear" to={`/root/product/detail/${product.aid}`}>详情</Link>
+                                        <Link className="opear" to={`/root/product/save/${product.aid}`}>编辑</Link>
                                     </td>
                                 </tr>
                             );

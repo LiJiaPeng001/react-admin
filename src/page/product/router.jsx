@@ -19,13 +19,13 @@ class ProductRouter extends React.Component{
         return (
             //重定向 redirect
             <Switch>
-                <Route path="/product/index" component={ProductList}/>
-                <Route path="/product/save/:aid?" component={ProductSave}/>
-                <Route path="/product/detail/:aid" component={ProductDetail}/>
-                <Route path="/product-category/index/:categoryId?" component={CategoryList}/>
-                <Route path="/product-category/add" component={CategoryAdd}/>
-                <Redirect exact from="/product" to="/product/index"/>
-                <Redirect exact from="/product-category" to="/product-category/index"/>
+                <Route path="/root/product/index" component={ProductList}/>
+                <Route path="/root/product/save/:aid?" component={ProductSave}/>
+                <Route path="/root/product/detail/:aid" component={ProductDetail}/>
+                <Route path="/root/product-category/index/:categoryId?" component={CategoryList}/>
+                <Route path="/root/product-category/add" component={CategoryAdd}/>
+                <Redirect exact from="/root/product" to="/root/product/index"/>
+                <Redirect exact from="/root/product-category" to="/root/product-category/index"/>
             </Switch>
         )
     }

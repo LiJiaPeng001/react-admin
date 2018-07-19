@@ -315,7 +315,6 @@ class FileUpload extends React.Component{
 
         /*保存xhr id*/
         xhrList.push(xhr)
-        this.props.onSuccess(xhrList);
         const cID = xhrList.length - 1
         currentXHRID = cID
 

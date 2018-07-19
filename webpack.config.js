@@ -19,7 +19,7 @@ module.exports = {
     },
     output: {
         path: path.resolve(__dirname, 'dist'),
-        publicPath: WEBPACK_ENV == 'dev' ? '/dist/' : 'http://mcljp.com/admin-v1-fe/dist/',
+        publicPath: WEBPACK_ENV == 'dev' ? '/dist/' : 'http://mcljp.com/root/',
         filename: 'js/[name].js'
     },
     resolve: {
