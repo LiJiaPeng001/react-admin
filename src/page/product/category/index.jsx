@@ -12,9 +12,6 @@ import swal         from 'sweetalert2'
 
 import PageTitle    from 'component/page-title/index.jsx';
 import TableList    from 'util/table-list/index.jsx';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'font-awesome/css/font-awesome.min.css';
-import $ from 'jquery/dist/jquery.min.js';
 
 const _mm           = new MUtil();
 const _product      = new Product();
@@ -49,7 +46,7 @@ class CategoryList extends React.Component{
     }
     // 加载品类列表
     loadCategoryList(){
-        _product.getCategoryList(this.state.parentCategoryId).then(res => {
+        _product.getAllCategory().then(res => {
             if (this._isMounted) {
                 this.setState({
                     list: res
@@ -94,18 +91,10 @@ class CategoryList extends React.Component{
             return (
                 <tr key={index}>
                     <td>{category.id}</td>
-                    <td>{category.name}</td>
+                    <td>{category.item}</td>
                     <td>
-                        {
-                            this.state.role === 1 ? 
                         <a className="opear"
-                            onClick={(e) => this.onUpdateName(category.id, category.name)}>修改名称</a> : null
-                        }
-                        {
-                            category.parentId === 0
-                            ? <Link to={`/product-category/index/${category.id}`}>查看子品类</Link>
-                            : <Link to={`/product-category/detail/${category.id}`}>查看子品类</Link>
-                        }
+                            onClick={(e) => this.onUpdateName(category.id, category.name)}>修改名称</a>
                     </td> 
                 </tr>
             );
@@ -113,21 +102,13 @@ class CategoryList extends React.Component{
         return (
             <div id="page-wrapper">
                 <PageTitle title="品类列表">
-                {
-                    this.state.role === 1 ? 
                     <div className="page-header-right">
                         <Link to="/product-category/add" className="btn btn-primary">
                             <i className="fa fa-plus"></i>
                             <span>添加品类</span>
                         </Link>
-                    </div> : null
-                }
-                </PageTitle>
-                <div className="row">
-                    <div className="col-md-12">
-                        <p>父品类ID: {this.state.parentCategoryId}</p>
                     </div>
-                </div>
+                </PageTitle>
                 <TableList tableHeads={['品类ID', '品类名称', '操作']}>
                     {listBody}
                 </TableList>

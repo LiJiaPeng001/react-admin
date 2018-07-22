@@ -8,7 +8,6 @@ import React        from 'react';
 import { Link }     from 'react-router-dom';
 import MUtil        from 'util/mm.jsx'
 import User         from 'service/user-service.jsx'
-import $ from 'jquery/dist/jquery.min.js';
 
 const _mm   = new MUtil();
 const _user = new User();
@@ -21,12 +20,20 @@ class NavTop extends React.Component{
         }
     }
     componentDidMount(){
+        if(this.state.uname){
+            window.location.href = '/root/login';
+        }
+        _user.session().then(res=>{
+
+        },err=>{
+            
+        })
     }
     // 退出登录
     onLogout(){
         _user.logout().then(res => {
             _mm.removeStorage('userInfo');
-            window.location.href = '/login';
+            window.location.href = '/root/login';
         }, errMsg => {
             _mm.errorTips(errMsg);
         });

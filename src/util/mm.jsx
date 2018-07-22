@@ -36,7 +36,7 @@ class MUtil{
     }
     // 跳转登录
     doLogin(){
-        window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+        window.location.href = '/root/login?redirect=' + encodeURIComponent(window.location.pathname);
     }
     // 获取URL参数
     getUrlParam(name){
@@ -58,8 +58,6 @@ class MUtil{
     }
     // 错误提示
     errorTips(errMsg){
-        // alert(errMsg || '好像哪里不对了~');
-        // swal(errMsg || '好像哪里不对了~')
         swal({
             title: '错误提示',
             text: errMsg || '好像哪里不对了~',

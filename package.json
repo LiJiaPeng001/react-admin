@@ -31,7 +31,6 @@
   },
   "dependencies": {
     "prop-types": "15.6.0",
-    "qiniu-js": "^2.4.0",
     "rc-pagination": "1.15.1",
     "react": "16.2.0",
     "react-dom": "16.2.0",

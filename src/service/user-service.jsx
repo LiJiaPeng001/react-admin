@@ -10,6 +10,13 @@ import $ from 'jquery';
 const _mm = new MUtil();
 
 class User {
+    //查看session是否存在
+    session(){
+        return _mm.request({
+            type: 'post',
+            url: '/admin/session'
+        });
+    }
     // 用户登录
     login(loginInfo) {
         return _mm.request({

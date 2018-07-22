@@ -41,69 +41,70 @@ class Product{
             status: true,
             msg: '验证通过'
         };
-        // 判断用户名为空
-        if(typeof product.name !== 'string' || product.name.length ===0){
+        // 判断标题是否为空
+        if(typeof product.title !== 'string' || product.title.length ===0){
             return {
                 status: false,
-                msg: '商品名称不能为空！'
+                msg: '标题不能为空！'
             }
         }
-        // 判断描述不能为空
+        // 判断副标题不能为空
         if(typeof product.subtitle !== 'string' || product.subtitle.length ==0){
             return {
                 status: false,
-                msg: '商品描述不能为空！'
+                msg: '副标题不能为空！'
             }
         }
         // 验证品类ID
-        if(typeof product.categoryId !== 'number' || typeof product.parentId !== 'number' || typeof product.grandpaId !== 'number' || !(product.categoryId > 0) || !(product.parentId > 0) || !(product.grandpaId > 0)){
+        if(typeof product.category !== 'number' || !(product.category >= 0)){
             return {
                 status: false,
-                msg: '请选择商品品类！'
+                msg: '请选择分类！'
             }
         }
         // 判断商品价格为数字，且大于0
-        if(typeof product.price !== 'number' || !(product.price >= 0)){
+        if(typeof product.set_top !== 'number' || !(product.set_top >= 0)){
             return {
                 status: false,
-                msg: '请输入正确的商品价格！'
+                msg: '请选择是否置顶！'
             }
         }
         // 判断库存为数字，且大于或等于0
-        if(typeof product.stock !== 'number' || !(product.stock >= 0)){
+        if(typeof product.is_recommend !== 'number' || !(product.is_recommend >= 0)){
             return {
                 status: false,
-                msg: '请输入正确的库存数量！'
+                msg: '请选择是否推荐！'
             }
         }
         // 判断库存为数字，且大于或等于0
-        if(typeof product.unit !== 'string' || product.unit.length ===0){
+        if(typeof product.art_pic !== 'string' || product.art_pic.length ===0){
             return {
                 status: false,
-                msg: '请输入正确的库存数量！'
+                msg: '请上传图片，一张即可！'
             }
         }
         //判断是否有图片
-        if(typeof product.subImages !== 'string' || product.subImages.length ===0){
-            return {
-                status: false,
-                msg: '请上传商品图片！'
-            }
-        }  
-        //判断是否有具体描述
         if(typeof product.detail !== 'string' || product.detail.length ===0){
             return {
                 status: false,
-                msg: '请上传商品描述！'
+                msg: '请输入文章详情！'
             }
         }   
         return result;
     }
-    // 保存商品
-    saveProduct(product){
+    // 保存文章
+    saveArticle(product){
         return _mm.request({
             type    : 'post',
-            url     : '/manage/product/save.do',
+            url     : '/admin/save',
+            data    : product
+        });
+    }
+    //更新文章
+    updataArticle(product){
+        return _mm.request({
+            type    : 'post',
+            url     : '/admin/updata',
             data    : product
         });
     }
@@ -133,6 +134,8 @@ class Product{
             data    : category
         });
     }
+    //上传图片
+    
 }
 
 export default Product;

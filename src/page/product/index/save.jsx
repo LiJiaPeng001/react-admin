@@ -16,7 +16,6 @@ import './save.scss';
 
 const _mm           = new MUtil();
 const _product      = new Product();
-const niu           = require('qiniu-js')
 
 class ProductSave extends React.Component{
     constructor(props){
@@ -35,10 +34,17 @@ class ProductSave extends React.Component{
         }
     }
     componentDidMount(){
-
         this.loadProduct();
         //获取分类
-        this.getAllCategory()
+        this.getAllCategory();
+    }
+    //七牛云上传图片
+    onuploaderKey(key){
+        var image = this.state.subImages;
+        image.push(key);
+        this.setState({
+            subImages : image
+        })
     }
     // 加载文章详情
     loadProduct(){
@@ -80,24 +86,6 @@ class ProductSave extends React.Component{
             [name] : value
         });
     }
-    //上传图片到七牛云
-    onUploadNiu(){
-        let uploader = niu.upload({
-            
-        })
-    }
-    // 上传图片成功
-    onUploadSuccess(res){
-        let subImages = this.state.subImages;
-        subImages.push(res);
-        this.setState({
-            subImages : subImages,
-        });
-    }
-    // 上传图片失败
-    onUploadError(errMsg){
-        _mm.errorTips(errMsg);
-    }
     // 删除图片
     onImageDelete(e){
         let index       = parseInt(e.target.getAttribute('index')),
@@ -116,20 +104,38 @@ class ProductSave extends React.Component{
     // 提交表单
     onSubmit(){
          let listArticle = {
+             aid            : this.state.id,
              title          : this.state.title,
              subtitle       : this.state.subtitle,
-             category       : this.state.category,
-             set_top        : this.state.set_top,
-             is_recommend   : this.state.is_recommend,
+             category       : parseInt(this.state.category),
+             set_top        : parseInt(this.state.set_top),
+             is_recommend   : parseInt(this.state.is_recommend),
              detail         : this.state.detail,
              art_pic        : this.state.subImages[0]
-         } 
-         console.log(listArticle);     
+         }
+         let status = _product.checkProduct(listArticle);
+         if(status.status){
+             if(this.state.id){
+                _product.updataArticle(listArticle).then(res=>{
+                    _mm.successTips(res);
+                },err=>{
+                    _mm.errorTips(err);
+                })
+             }else{
+                 delete listArticle.aid;
+                _product.saveArticle(listArticle).then(res=>{
+                    _mm.successTips(res);
+                },err=>{
+                    _mm.errorTips(err);
+                })
+             }      
+         }else{
+             _mm.errorTips(status.msg);
+         }
     }
     render(){
         return (
             <div id="page-wrapper">
-                        <button onClick={e=>this.onUploadNiu(e)}>upload</button>
                 <PageTitle title={this.state.id ? '编辑文章' : '添加文章'} />
                 <div className="form-horizontal">
                     <div className="form-group">
@@ -206,10 +212,9 @@ class ProductSave extends React.Component{
                                     </div>)
                                 ) : (<div>请上传图片</div>)
                             }
-                        </div>
-                        <div className="col-md-offset-2 col-md-10 file-upload-con">
-                            <FileUploader onSuccess={(res) => this.onUploadSuccess(res)}
-                                onError={(errMsg) => this.onUploadError(errMsg)}/>
+                            <FileUploader
+                                onuploaderKey={key=>this.onuploaderKey(key)}
+                            />
                         </div>
                     </div>
                     <div className="form-group">

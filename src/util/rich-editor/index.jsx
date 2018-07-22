@@ -28,12 +28,7 @@ class RichEditor extends React.Component{
         let element = this.refs['textarea'];
         this.simditor = new Simditor({
             textarea: $(element),
-            defaultValue: this.props.placeholder || '请输入内容',
-            upload: {
-                url             : '/manage/product/richtext_img_upload.do',
-                defaultImage    : '',
-                fileKey         : 'upload_file',
-            },    
+            defaultValue: this.props.placeholder || '请输入内容',  
             success: function(data) {  
                 alert(data);  
             },       
