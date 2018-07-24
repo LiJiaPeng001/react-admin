@@ -96,7 +96,7 @@ class ProductDetail extends React.Component{
                     <div className="form-group">
                         <label className="col-md-2 control-label">文章内容</label>
                         <div className="col-md-5">
-                            <p className="form-control-static">{list.detail}</p>
+                            <p className="form-control-static" dangerouslySetInnerHTML={{__html:list.detail}}></p>
                         </div>
                     </div>
                 </div>
