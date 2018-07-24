@@ -7,9 +7,6 @@
 import React        from 'react';
 import Simditor     from 'simditor';
 import 'simditor/styles/simditor.scss';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'font-awesome/css/font-awesome.min.css';
-import $ from 'jquery/dist/jquery.min.js';
 import './index.scss';
 // 通用的富文本编辑器，依赖jquery
 class RichEditor extends React.Component{
@@ -31,7 +28,8 @@ class RichEditor extends React.Component{
             defaultValue: this.props.placeholder || '请输入内容',  
             success: function(data) {  
                 alert(data);  
-            },       
+            },      
+            cleanPaste      : true, 
             pasteImage      : true,
         });
         this.bindEditorEvent();

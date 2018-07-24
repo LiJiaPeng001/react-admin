@@ -122,7 +122,7 @@ class Product{
     saveCategory(category){
         return _mm.request({
             type    : 'post',
-            url     : '/manage/category/add_category.do',
+            url     : '/admin/addCategory',
             data    : category
         });
     }
@@ -130,7 +130,7 @@ class Product{
     updateCategoryName(category){
         return _mm.request({
             type    : 'post',
-            url     : '/manage/category/set_category_name.do',
+            url     : '/admin/updataCategory',
             data    : category
         });
     }

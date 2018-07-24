@@ -5,9 +5,12 @@
 * @Last Modified time: 2018-01-31 14:21:22
 */
 import swal         from 'sweetalert2'
-import $ from 'jquery/dist/jquery.min.js';
+import React        from 'react';
 
-class MUtil{
+class MUtil extends React.Component{
+    constructor(props){
+        super(props);
+    }
     request(param){
         return new Promise((resolve, reject) => {
             $.ajax({
@@ -35,8 +38,9 @@ class MUtil{
         });  
     }
     // 跳转登录
+    // +encodeURIComponent(window.location.pathname)
     doLogin(){
-        window.location.href = '/root/login?redirect=' + encodeURIComponent(window.location.pathname);
+        location.replace('/root/#/login');
     }
     // 获取URL参数
     getUrlParam(name){

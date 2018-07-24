@@ -8,7 +8,7 @@
 
 import React            from 'react';
 import ReactDOM         from 'react-dom';
-import { BrowserRouter as Router, Switch, Redirect, Route, Link } from 'react-router-dom'
+import { HashRouter as Router, Switch, Redirect, Route, Link, withRouter } from 'react-router-dom'
 
 
 import Layout           from 'component/layout/index.jsx';
@@ -24,11 +24,11 @@ class App extends React.Component{
         let LayoutRouter = (
             <Layout> 
                 <Switch>
-                    <Route exact path="/root" component={Home}/>
-                    <Route path="/root/product" component={ProductRouter}/>
-                    <Route path="/root/product-category" component={ProductRouter}/>
-                    <Route path="/root/user" component={UserRouter}/>
-                    <Route path="/root/user-center" component={UserRouter}/>
+                    <Route exact path="/" component={Home}/>
+                    <Route path="/product" component={ProductRouter}/>
+                    <Route path="/product-category" component={ProductRouter}/>
+                    <Route path="/user" component={UserRouter}/>
+                    <Route path="/user-center" component={UserRouter}/>
                     <Route component={ErrorPage}/>
                 </Switch>
             </Layout>
@@ -36,8 +36,8 @@ class App extends React.Component{
         return (
             <Router>
                 <Switch>
-                    <Route path="/root/login" component={Login}/>
-                    <Route path="/root" render={ props => LayoutRouter}/>
+                    <Route exact path="/login" component={Login}/>
+                    <Route path="/" render={ props => LayoutRouter}/>
                 </Switch>
             </Router>
         )

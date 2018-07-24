@@ -20,20 +20,19 @@ class NavTop extends React.Component{
         }
     }
     componentDidMount(){
-        if(this.state.uname){
-            window.location.href = '/root/login';
+        if(!this.state.username){
+            location.replace('/root/#/login');
         }
         _user.session().then(res=>{
 
         },err=>{
-            
+            _mm.errorTips(res);
         })
     }
     // 退出登录
     onLogout(){
         _user.logout().then(res => {
             _mm.removeStorage('userInfo');
-            window.location.href = '/root/login';
         }, errMsg => {
             _mm.errorTips(errMsg);
         });

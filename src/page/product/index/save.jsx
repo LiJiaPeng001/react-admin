@@ -135,7 +135,7 @@ class ProductSave extends React.Component{
     }
     render(){
         return (
-            <div id="page-wrapper">
+            <div id="page-wrapper">                
                 <PageTitle title={this.state.id ? '编辑文章' : '添加文章'} />
                 <div className="form-horizontal">
                     <div className="form-group">

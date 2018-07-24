@@ -5,9 +5,6 @@
 * @Last Modified time: 2018-01-23 22:26:09
 */
 import React from 'react';
-import $ from 'jquery/dist/jquery.min.js';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'font-awesome/css/font-awesome.min.css';
 
 class PageTitle extends React.Component{
     constructor(props){

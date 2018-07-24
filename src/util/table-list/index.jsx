@@ -5,9 +5,6 @@
 * @Last Modified time: 2018-01-31 20:52:46
 */
 import React            from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'font-awesome/css/font-awesome.min.css';
-import $ from 'jquery/dist/jquery.min.js';
 
 // 通用的列表
 class TableList extends React.Component{

@@ -8,12 +8,9 @@ import React        from 'react';
 import MUtil        from 'util/mm.jsx'
 import PageTitle    from 'component/page-title/index.jsx';
 import User         from 'service/user-service.jsx'
-import 'bootstrap/dist/css/bootstrap.css';
-import 'font-awesome/css/font-awesome.min.css';
-import $ from 'jquery/dist/jquery.min.js';
 
 
-import '../save.scss'
+import './save.scss'
 const _mm       = new MUtil();
 const _user     = new User();
 

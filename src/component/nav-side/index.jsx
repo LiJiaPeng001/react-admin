@@ -19,23 +19,23 @@ class NavSide extends React.Component{
                 <div className="sidebar-collapse">
                     <ul className="nav">
                         <li>
-                            <NavLink exact activeClassName="active-menu" to="/root">
+                            <NavLink exact activeClassName="active-menu" to="/">
                                 <i className="fa fa-dashboard"></i>
                                 <span>首页</span>
                             </NavLink>
                         </li>
                         <li className="active">
-                            <Link to="/root/product">
+                            <Link to="/product">
                                 <i className="fa fa-list"></i>
                                 <span>博客</span>
                                 <span className="fa arrow"></span>
                             </Link>
                             <ul className="nav nav-second-level collapse in">
                                 <li>
-                                    <NavLink to="/root/product" activeClassName="active-menu">文章管理</NavLink>
+                                    <NavLink to="/product" activeClassName="active-menu">文章管理</NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/root/product-category" activeClassName="active-menu">分类管理</NavLink>
+                                    <NavLink to="/product-category" activeClassName="active-menu">分类管理</NavLink>
                                 </li>
                             </ul>
                         </li>

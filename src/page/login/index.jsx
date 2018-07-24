@@ -7,10 +7,7 @@
 import React        from 'react';
 import MUtil        from 'util/mm.jsx'
 import User         from 'service/user-service.jsx'
-import { Link }     from 'react-router-dom';
-import $ from 'jquery';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'font-awesome/css/font-awesome.min.css';
+
 const _mm   = new MUtil();
 const _user = new User();
 
@@ -22,7 +19,7 @@ class Login extends React.Component{
         this.state = {
             username: '',
             password: '',
-            redirect: _mm.getUrlParam('redirect') || '/root'
+            redirect: _mm.getUrlParam('redirect') || '/'
         }
     }
     componentWillMount(){

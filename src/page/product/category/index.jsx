@@ -70,8 +70,8 @@ class CategoryList extends React.Component{
             _mm.onAlert(list).then(confirm => {
                 if (confirm.value) {
                     _product.updateCategoryName({
-                        categoryId: categoryId,
-                        categoryName: confirm.value
+                        id: categoryId,
+                        item: confirm.value
                     }).then(res => {
                         _mm.successTips(res);
                         this.loadCategoryList();
@@ -90,7 +90,7 @@ class CategoryList extends React.Component{
         let listBody = this.state.list.map((category, index) => {
             return (
                 <tr key={index}>
-                    <td>{category.id}</td>
+                    <td>{category.categoryId}</td>
                     <td>{category.item}</td>
                     <td>
                         <a className="opear"

@@ -52,7 +52,7 @@ class User {
     logout() {
         return _mm.request({
             type: 'post',
-            url: '/user/logout.do'
+            url: '/admin/logout'
         });
     }
     }

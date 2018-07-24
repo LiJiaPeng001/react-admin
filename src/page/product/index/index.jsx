@@ -139,7 +139,7 @@ class ProductList extends React.Component {
             <div id="page-wrapper">
                 <PageTitle title="文章列表">
                     <div className="page-header-right">
-                        <Link to="/root/product/save" className="btn btn-primary">
+                        <Link to="/product/save" className="btn btn-primary">
                             <i className="fa fa-plus"></i>
                             <span>添加文章</span>
                         </Link>
@@ -167,8 +167,8 @@ class ProductList extends React.Component {
                                             onClick={(e) => { this.onSetProductStatus(e, product.aid, product.is_recommend,'recommend') }}>{product.is_recommend == 1 ? '取消推荐' : '推荐'}</button>
                                     </td>
                                     <td>
-                                        <Link className="opear" to={`/root/product/detail/${product.aid}`}>详情</Link>
-                                        <Link className="opear" to={`/root/product/save/${product.aid}`}>编辑</Link>
+                                        <Link className="opear" to={`/product/detail/${product.aid}`}>详情</Link>
+                                        <Link className="opear" to={`/product/save/${product.aid}`}>编辑</Link>
                                     </td>
                                 </tr>
                             );

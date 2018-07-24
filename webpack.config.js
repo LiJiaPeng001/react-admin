@@ -8,10 +8,8 @@ const path              = require('path');
 const webpack           = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const uglify            = require('uglifyjs-webpack-plugin');
 
 let WEBPACK_ENV = process.env.WEBPACK_ENV || 'dev';
-console.log(WEBPACK_ENV);
 
 module.exports = {
     entry: {
@@ -29,9 +27,6 @@ module.exports = {
             util        : path.resolve(__dirname, 'src/util'),
             service     : path.resolve(__dirname, 'src/service'),
         }
-    },
-    externals: {
-        jQuery: 'window.$'
     },
     module: {
         rules: [
@@ -91,7 +86,6 @@ module.exports = {
         ]
     },
     plugins: [
-        // new uglify(),
         // 处理html文件 
         new HtmlWebpackPlugin({
             template    : './src/index.html',
@@ -104,15 +98,6 @@ module.exports = {
             name : 'common',
             filename: 'js/base.js'
         }),
-        new webpack.ProvidePlugin({
-
-            $:"jquery",
-    
-            jQuery:"jquery",
-    
-            "window.jQuery":"jquery"
-    
-          })
     ],
     devServer: {
         port: 8081, 

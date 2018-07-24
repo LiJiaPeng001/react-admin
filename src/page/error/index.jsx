@@ -8,9 +8,6 @@ import React        from 'react';
 import { Link }     from 'react-router-dom';
 
 import PageTitle    from 'component/page-title/index.jsx';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'font-awesome/css/font-awesome.min.css';
-import $ from 'jquery/dist/jquery.min.js';
 
 class Error extends React.Component{
     constructor(props){
