@@ -14,6 +14,8 @@ import { HashRouter as Router, Switch, Redirect, Route, Link, withRouter } from 
 import Layout           from 'component/layout/index.jsx';
 // 页面
 import Home             from 'page/home/index.jsx';
+import Index            from 'page/index/index.jsx';
+import addLabel         from 'page/index/add.jsx';
 import ProductRouter    from 'page/product/router.jsx';
 import Login            from 'page/login/index.jsx';
 import UserRouter       from 'page/user/router.jsx';
@@ -25,6 +27,8 @@ class App extends React.Component{
             <Layout> 
                 <Switch>
                     <Route exact path="/" component={Home}/>
+                    <Route exact path="/index" component={Index}/>
+                    <Route path="/index/add/:lid?" component={addLabel}/>
                     <Route path="/product" component={ProductRouter}/>
                     <Route path="/product-category" component={ProductRouter}/>
                     <Route path="/user" component={UserRouter}/>

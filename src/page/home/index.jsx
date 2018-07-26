@@ -9,10 +9,8 @@ import React        from 'react';
 import { Link }     from 'react-router-dom';
 
 import MUtil        from 'util/mm.jsx'
-import Statistic    from 'service/statistic-service.jsx'
 
 const _mm           = new MUtil();
-const _statistic    = new Statistic();
 
 import PageTitle    from 'component/page-title/index.jsx';
 import './index.scss'

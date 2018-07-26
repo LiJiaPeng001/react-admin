@@ -23,6 +23,11 @@ class NavSide extends React.Component{
                                 <i className="fa fa-dashboard"></i>
                                 <span>首页</span>
                             </NavLink>
+                            <ul className="nav nav-second-level collapse in">
+                                <li>
+                                    <NavLink to="/index" activeClassName="active-menu">标签管理</NavLink>
+                                </li>
+                            </ul>
                         </li>
                         <li className="active">
                             <Link to="/product">

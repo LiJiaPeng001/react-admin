@@ -21,7 +21,7 @@ class FileUploader extends React.Component {
             flash_swf_url: 'https://cdn.bootcss.com/plupload/2.1.1/Moxie.swf',
             chunk_size: '4mb',
             uptoken_url: '/admin/upload',
-            domain: 'http://pbp1e6s89.bkt.clouddn.com/',
+            domain: 'http://qiniu.mcljp.com/',
             get_new_uptoken: false,
             auto_start: true,
             max_retries: 2,
@@ -32,7 +32,7 @@ class FileUploader extends React.Component {
             init: {
                 FileUploaded: (up, file, info) => {
                     var info = JSON.parse(info);
-                    var key = 'http://pbp1e6s89.bkt.clouddn.com/' + info.key;
+                    var key = Qiniu.domain + info.key;
                     this.props.onuploaderKey(key);
                 },
                 Error: (up, err, errTip) => {
